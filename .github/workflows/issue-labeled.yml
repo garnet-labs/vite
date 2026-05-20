@@ -4,10 +4,18 @@ on:
   issues:
     types: [labeled]
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   reply-labeled:
     runs-on: ubuntu-latest
     steps:
+      - name: Garnet Runtime Visibility
+        uses: garnet-org/action@2b7fc9d79b54f551b43358c27424a36064b3e078
+        with:
+          api_token: ${{ secrets.GARNET_API_TOKEN }}
       - name: contribution welcome
         if: github.event.label.name == 'contribution welcome' || github.event.label.name == 'help wanted'
         uses: actions-cool/issues-helper@v3
@@ -47,3 +55,7 @@ jobs:
           body: |
             Hello @${{ github.event.issue.user.login }}. Please provide a [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) using a GitHub repository or [StackBlitz](https://vite.new). Issues marked with `need reproduction` will be closed if they have no activity within 3 days.
           labels: "pending triage"
+
+      - name: Garnet capture settling period
+        if: always()
+        run: sleep 20
