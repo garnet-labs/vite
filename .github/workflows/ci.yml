@@ -45,9 +45,18 @@ jobs:
       fail-fast: false
 
     name: "Build&Test: node-${{ matrix.node_version }}, ${{ matrix.os }}"
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Garnet Runtime Review
+        if: runner.os == 'Linux'
+        uses: garnet-org/action@3d47f4a9004f7356c980a0e8d420ef5984750e3c # v2.2.0
+        with:
+          api_token: ${{ secrets.GARNET_API_TOKEN }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
@@ -100,10 +109,18 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     name: "Lint: node-16, ubuntu-latest"
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Garnet Runtime Review
+        uses: garnet-org/action@3d47f4a9004f7356c980a0e8d420ef5984750e3c # v2.2.0
+        with:
+          api_token: ${{ secrets.GARNET_API_TOKEN }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
