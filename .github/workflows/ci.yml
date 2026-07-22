@@ -59,10 +59,12 @@ jobs:
           api_token: ${{ secrets.GARNET_API_TOKEN }}
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.4
+        uses: pnpm/action-setup@v4
+        with:
+          version: 7
 
       - name: Set node version to ${{ matrix.node_version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
           cache: "pnpm"
@@ -123,10 +125,12 @@ jobs:
           api_token: ${{ secrets.GARNET_API_TOKEN }}
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.4
+        uses: pnpm/action-setup@v4
+        with:
+          version: 7
 
       - name: Set node version to 16
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: "pnpm"
